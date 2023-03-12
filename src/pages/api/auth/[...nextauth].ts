@@ -11,4 +11,32 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async signIn({ user, account }) {
+      console.log("[signIn callback]", user, account);
+      return true;
+    },
+    async jwt({ token, account }) {
+      console.log("[jwt callback]", token, account);
+      return token;
+    },
+    async session({ session, token }) {
+      console.log("[session callback]", session, token);
+      return session;
+    },
+  },
+  events: {
+    signIn: async (msg) => {
+      console.log("[signIn]", msg);
+    },
+    createUser: async (msg) => {
+      console.log("[createUser]", msg);
+    },
+    session: async (msg) => {
+      console.log("[session]", msg);
+    },
+  },
 });
