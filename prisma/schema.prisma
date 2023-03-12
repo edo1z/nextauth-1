@@ -1,23 +1,15 @@
-# nextauth-1
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-## プロジェクトの作成・設定
+generator client {
+  provider = "prisma-client-js"
+}
 
-Next.js の新規プロジェクトを作成し、各種インストールをします。
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
 
-```shell
-npx create-next-app@latest --typescript
-...
-cd nextauth-1
-npm i prisma -D
-npm i next-auth @prisma/client @next-auth/prisma-adapter
-npx prisma init --datasource-provider sqlite
-```
-
-Prisma のモデルを作成します。
-
-prisma/schema.prisma
-
-```prisma
 model Account {
   id                String  @id @default(uuid())
   userId            String
@@ -62,10 +54,3 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-```
-
-migrate します。
-
-```shell
-npx prisma migrate dev --name init
-```
